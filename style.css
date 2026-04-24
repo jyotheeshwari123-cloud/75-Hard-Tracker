@@ -10,7 +10,7 @@ body {
 
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* 👈 start from top */
+  align-items: flex-start;
 }
 
 /* 📜 Container */
@@ -23,27 +23,26 @@ body {
     0 4px 20px rgba(120, 94, 64, 0.15),
     inset 0 0 10px rgba(255,255,255,0.3);
   text-align: center;
-  animation: fadeIn 0.7s ease;
 }
 
 /* ✨ Titles */
 h1 {
   color: #4b3832;
-  font-size: 30px;
-  margin-bottom: 8px;
+  font-size: 34px;
+  margin-bottom: 10px;
   font-weight: 600;
 }
 
 h2 {
   color: #7a5c3e;
-  font-size: 22px;
-  margin-bottom: 6px;
+  font-size: 26px;
+  margin-bottom: 8px;
 }
 
 h3 {
   color: #a47551;
-  font-size: 16px;
-  margin-bottom: 20px;
+  font-size: 18px;
+  margin-bottom: 22px;
 }
 
 /* 🌸 Tasks */
@@ -55,13 +54,13 @@ h3 {
 .tasks label {
   display: flex;
   align-items: center;
-  font-size: 17px;
-  padding: 12px;
+  font-size: 19px;
+  padding: 14px;
   border-radius: 10px;
   transition: 0.25s;
   cursor: pointer;
   color: #5c4435;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .tasks label:hover {
@@ -71,15 +70,15 @@ h3 {
 
 /* ✅ Checkbox */
 input[type="checkbox"] {
-  margin-right: 12px;
-  transform: scale(1.4);
+  margin-right: 14px;
+  transform: scale(1.6);
   accent-color: #8b6f47;
 }
 
 /* 🤎 Button */
 button {
-  margin-top: 20px;
-  padding: 16px;
+  margin-top: 22px;
+  padding: 18px;
   width: 100%;
   background: linear-gradient(135deg, #a47551, #d2b48c);
   border: none;
@@ -89,7 +88,7 @@ button {
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 16px;
 
   color: white;
   cursor: pointer;
@@ -105,10 +104,10 @@ button:hover {
 /* 📊 Progress */
 .progress {
   width: 100%;
-  height: 12px;
+  height: 14px;
   background: #e6d3c3;
   border-radius: 10px;
-  margin-top: 25px;
+  margin-top: 30px;
   overflow: hidden;
 }
 
@@ -117,18 +116,6 @@ button:hover {
   width: 0%;
   background: linear-gradient(to right, #a47551, #d2b48c);
   transition: width 0.4s ease;
-}
-
-/* ✨ Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* 📱 Mobile Optimization */
@@ -141,30 +128,30 @@ button:hover {
   .container {
     width: 100%;
     border-radius: 0;
-    padding: 20px;
+    padding: 22px;
     box-shadow: none;
   }
 
   h1 {
-    font-size: 26px;
+    font-size: 30px;
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   h3 {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .tasks label {
-    font-size: 16px;
-    padding: 10px;
+    font-size: 18px;
+    padding: 12px;
   }
 
   button {
-    font-size: 13px;
-    padding: 14px;
+    font-size: 15px;
+    padding: 16px;
   }
 
 }
