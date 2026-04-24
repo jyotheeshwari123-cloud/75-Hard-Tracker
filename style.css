@@ -121,3 +121,33 @@ button:hover {
     transform: translateY(0);
   }
 }
+/* 📱 Mobile Optimization */
+@media (max-width: 500px) {
+
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 14px;
+  }
+
+  .tasks label {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 12px;
+  }
+}
