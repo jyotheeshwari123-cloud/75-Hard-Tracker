@@ -27,22 +27,18 @@ body {
 
 /* ✨ Titles */
 h1 {
-  color: #4b3832;
-  font-size: 34px;
-  margin-bottom: 10px;
-  font-weight: 600;
+  font-size: 38px;   /* 👈 bigger, main focus */
+  margin-bottom: 12px;
 }
 
 h2 {
-  color: #7a5c3e;
-  font-size: 26px;
-  margin-bottom: 8px;
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
 h3 {
-  color: #a47551;
-  font-size: 18px;
-  margin-bottom: 22px;
+  font-size: 20px;
+  margin-bottom: 24px;
 }
 
 /* 🌸 Tasks */
