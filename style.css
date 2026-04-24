@@ -10,10 +10,10 @@ body {
 
   display: flex;
   justify-content: center;
-  align-items: flex-start;   /* ✅ FIX */
+  align-items: flex-start; /* 👈 start from top */
 }
 
-/* 📜 Main Card */
+/* 📜 Container */
 .container {
   background: rgba(255, 248, 240, 0.85);
   padding: 30px;
@@ -29,21 +29,21 @@ body {
 /* ✨ Titles */
 h1 {
   color: #4b3832;
-  margin-bottom: 5px;
-  font-size: 28px;
+  font-size: 30px;
+  margin-bottom: 8px;
   font-weight: 600;
 }
 
 h2 {
   color: #7a5c3e;
-  margin: 5px 0;
   font-size: 22px;
+  margin-bottom: 6px;
 }
 
 h3 {
   color: #a47551;
-  margin-bottom: 20px;
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
 /* 🌸 Tasks */
@@ -55,11 +55,13 @@ h3 {
 .tasks label {
   display: flex;
   align-items: center;
-  padding: 10px;
+  font-size: 17px;
+  padding: 12px;
   border-radius: 10px;
   transition: 0.25s;
   cursor: pointer;
   color: #5c4435;
+  line-height: 1.4;
 }
 
 .tasks label:hover {
@@ -70,14 +72,14 @@ h3 {
 /* ✅ Checkbox */
 input[type="checkbox"] {
   margin-right: 12px;
-  transform: scale(1.2);
+  transform: scale(1.4);
   accent-color: #8b6f47;
 }
 
 /* 🤎 Button */
 button {
   margin-top: 20px;
-  padding: 14px;
+  padding: 16px;
   width: 100%;
   background: linear-gradient(135deg, #a47551, #d2b48c);
   border: none;
@@ -87,7 +89,7 @@ button {
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 14px;
 
   color: white;
   cursor: pointer;
@@ -106,7 +108,7 @@ button:hover {
   height: 12px;
   background: #e6d3c3;
   border-radius: 10px;
-  margin-top: 20px;
+  margin-top: 25px;
   overflow: hidden;
 }
 
@@ -133,7 +135,6 @@ button:hover {
 @media (max-width: 600px) {
 
   body {
-    align-items: flex-start;
     padding-top: env(safe-area-inset-top);
   }
 
@@ -145,11 +146,11 @@ button:hover {
   }
 
   h1 {
-    font-size: 22px;
+    font-size: 26px;
   }
 
   h2 {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   h3 {
@@ -157,13 +158,13 @@ button:hover {
   }
 
   .tasks label {
-    font-size: 14px;
-    padding: 8px;
+    font-size: 16px;
+    padding: 10px;
   }
 
   button {
-    padding: 12px;
-    font-size: 12px;
+    font-size: 13px;
+    padding: 14px;
   }
 
 }
