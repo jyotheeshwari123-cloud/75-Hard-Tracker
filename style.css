@@ -7,9 +7,10 @@ body {
     linear-gradient(rgba(245, 239, 230, 0.9), rgba(245, 239, 230, 0.9)),
     url("https://www.transparenttextures.com/patterns/paper-fibers.png");
   margin: 0;
+
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;   /* ✅ FIX */
 }
 
 /* 📜 Main Card */
