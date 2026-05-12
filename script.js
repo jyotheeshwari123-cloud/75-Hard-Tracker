@@ -121,42 +121,66 @@ function updateProgress() {
   progressBar.style.width = percent + "%";
 }
 
-// 💧 WATER TRACKER
-let water = localStorage.getItem("water") || 0;
+// 💧 MINIMAL WATER TRACKER
 
-const waterText = document.getElementById("waterText");
-const waterBar = document.getElementById("waterBar");
+let waterDrops =
+  JSON.parse(localStorage.getItem("waterDrops")) ||
+  [false, false, false, false, false, false];
 
-updateWaterUI();
+const drops = document.querySelectorAll(".drop");
 
+const waterStatus =
+  document.getElementById("waterStatus");
 
-function addWater(amount) {
-  water = Number(water) + amount;
+drops.forEach((drop, index) => {
+  if (waterDrops[index]) {
+    drop.classList.add("active");
+  }
 
-  localStorage.setItem("water", water);
+  drop.addEventListener("click", () => {
+    waterDrops[index] = !waterDrops[index];
 
-  updateWaterUI();
+    drop.classList.toggle("active");
+
+    localStorage.setItem(
+      "waterDrops",
+      JSON.stringify(waterDrops)
+    );
+
+    updateWaterStatus();
+  });
+});
+
+function updateWaterStatus() {
+  const completed =
+    waterDrops.filter(Boolean).length;
+
+  waterStatus.innerText =
+    completed * 500 + " ml / 3000 ml";
+
+  if (completed === 6) {
+    waterStatus.innerText +=
+      "  ✅ Goal Completed";
+  }
 }
 
 function resetWater() {
-  water = 0;
+  waterDrops =
+    [false, false, false, false, false, false];
 
-  localStorage.setItem("water", water);
+  localStorage.setItem(
+    "waterDrops",
+    JSON.stringify(waterDrops)
+  );
 
-  updateWaterUI();
+  drops.forEach(drop => {
+    drop.classList.remove("active");
+  });
+
+  updateWaterStatus();
 }
 
-function updateWaterUI() {
-  waterText.innerText = water + " ml / 3000 ml";
-
-  let percent = (water / 3000) * 100;
-
-  waterBar.style.width = Math.min(percent, 100) + "%";
-
-  if (water >= 3000) {
-    waterText.innerText += " ✅ Goal Completed";
-  }
-}
+updateWaterStatus();
 
 // ⚖️ WEIGHT TRACKER
 let weights = JSON.parse(localStorage.getItem("weights")) || [];
