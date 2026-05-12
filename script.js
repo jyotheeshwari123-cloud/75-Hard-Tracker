@@ -161,14 +161,18 @@ function updateReward() {
   }
 }
 
-// ⚖️ WEIGHT TRACKER
+// ⚖️ WEIGHT TRANSFORMATION GRAPH
+
 let weights =
-  JSON.parse(localStorage.getItem("weights")) || [];
+  JSON.parse(localStorage.getItem("weights")) || [
+    {
+      day: 1,
+      weight: 54
+    }
+  ];
 
-const weightList =
-  document.getElementById("weightList");
-
-showWeights();
+const ctx =
+  document.getElementById("weightChart");
 
 function saveWeight() {
   const input =
@@ -177,8 +181,8 @@ function saveWeight() {
   if (!input.value) return;
 
   weights.push({
-    day: day,
-    weight: input.value
+    day: Number(day),
+    weight: Number(input.value)
   });
 
   localStorage.setItem(
@@ -188,22 +192,67 @@ function saveWeight() {
 
   input.value = "";
 
-  showWeights();
+  renderChart();
 }
 
-function showWeights() {
-  weightList.innerHTML = "";
+function renderChart() {
+  const labels =
+    weights.map(w => "Day " + w.day);
 
-  weights.forEach(entry => {
-    const li = document.createElement("li");
+  const data =
+    weights.map(w => w.weight);
 
-    li.innerText =
-      "Day " +
-      entry.day +
-      " → " +
-      entry.weight +
-      " kg";
+  if (window.weightGraph) {
+    window.weightGraph.destroy();
+  }
 
-    weightList.appendChild(li);
-  });
+  window.weightGraph =
+    new Chart(ctx, {
+      type: "line",
+
+      data: {
+        labels: labels,
+
+        datasets: [
+          {
+            label: "Weight (kg)",
+
+            data: data,
+
+            borderColor: "#a47551",
+
+            backgroundColor:
+              "rgba(164,117,81,0.15)",
+
+            tension: 0.4,
+
+            fill: true,
+
+            pointRadius: 5,
+
+            pointBackgroundColor:
+              "#8b6f47"
+          }
+        ]
+      },
+
+      options: {
+        responsive: true,
+
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+
+        scales: {
+          y: {
+            suggestedMin: 45,
+            suggestedMax: 55
+          }
+        }
+      }
+    });
 }
+
+renderChart();
