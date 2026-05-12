@@ -2,12 +2,35 @@ let streak = localStorage.getItem("streak") || 0;
 const streakText = document.getElementById("streak");
 
 streakText.innerText = "🔥 Streak: " + streak + " days";
+
 let day = localStorage.getItem("day") || 1;
 
 const dayText = document.getElementById("day");
 const progressBar = document.getElementById("progressBar");
 const nextBtn = document.getElementById("nextDay");
 const checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+const rewards = {
+  5: "🍰 Dessert Treat",
+  10: "🎬 Movie Night",
+  15: "🛍️ Buy Something Small",
+  20: "☕ Café Treat",
+  25: "💄 Self-care Item",
+  30: "🌸 Solo Outing",
+   35: "👗 Fashion Accessory",
+  40: "💆 Spa / Relax Day",
+  45: "🏋️ New Workout Item",
+  50: "🍽️ Fancy Dinner",
+  55: "🛒 Mini Shopping",
+  60: "🌿 Day Trip",
+  65: "📸 Photoshoot",
+  70: "✨ Big Self-care Day",
+  75: "🏆 GRAND REWARD"
+};
+
+const rewardText = document.getElementById("rewardText");
+
+updateReward();
 
 dayText.innerText = "Day " + day;
 
@@ -18,11 +41,13 @@ checkboxes.forEach((cb, index) => {
   cb.checked = savedChecks[index] || false;
 });
 
-// ✅ Save checkbox state when changed
+// ✅ Save checkbox state
 checkboxes.forEach((cb, index) => {
   cb.addEventListener("change", () => {
     let updatedChecks = [];
+
     checkboxes.forEach(c => updatedChecks.push(c.checked));
+
     localStorage.setItem("checks", JSON.stringify(updatedChecks));
   });
 });
@@ -36,18 +61,25 @@ nextBtn.addEventListener("click", () => {
     if (!cb.checked) allChecked = false;
   });
 
+  // 💧 Water must also be completed
+  if (water < 3000) {
+    allChecked = false;
+  }
+
   if (!allChecked) {
     let confirmReset = confirm("You missed tasks. Restart from Day 1?");
-    
+
     if (confirmReset) {
       day = 1;
       streak = 0;
-
-      localStorage.setItem("day", day);
+            localStorage.setItem("day", day);
       localStorage.setItem("streak", streak);
+
       resetCheckboxes();
+      resetWater();
       updateUI();
     }
+
     return;
   }
 
@@ -59,20 +91,24 @@ nextBtn.addEventListener("click", () => {
   day++;
   streak++;
 
+                         
   localStorage.setItem("day", day);
   localStorage.setItem("streak", streak);
 
-  // ✅ Clear saved checkbox data for new day
   localStorage.setItem("checks", JSON.stringify([]));
 
   resetCheckboxes();
+  resetWater();
   updateUI();
 });
 
 function updateUI() {
   dayText.innerText = "Day " + day;
+
   streakText.innerText = "🔥 Streak: " + streak + " days";
+
   updateProgress();
+  updateReward();
 }
 
 function resetCheckboxes() {
@@ -81,5 +117,101 @@ function resetCheckboxes() {
 
 function updateProgress() {
   let percent = (day / 75) * 100;
+
   progressBar.style.width = percent + "%";
+}
+
+// 💧 WATER TRACKER
+let water = localStorage.getItem("water") || 0;
+
+const waterText = document.getElementById("waterText");
+const waterBar = document.getElementById("waterBar");
+
+updateWaterUI();
+
+
+function addWater(amount) {
+  water = Number(water) + amount;
+
+  localStorage.setItem("water", water);
+
+  updateWaterUI();
+}
+
+function resetWater() {
+  water = 0;
+
+  localStorage.setItem("water", water);
+
+  updateWaterUI();
+}
+
+function updateWaterUI() {
+  waterText.innerText = water + " ml / 3000 ml";
+
+  let percent = (water / 3000) * 100;
+
+  waterBar.style.width = Math.min(percent, 100) + "%";
+
+  if (water >= 3000) {
+    waterText.innerText += " ✅ Goal Completed";
+  }
+}
+
+// ⚖️ WEIGHT TRACKER
+let weights = JSON.parse(localStorage.getItem("weights")) || [];
+
+const weightList = document.getElementById("weightList");
+
+showWeights();
+
+function saveWeight() {
+  const input = document.getElementById("weightInput");
+
+  if (!input.value) return;
+
+  weights.push({
+    day: day,
+    weight: input.value
+  });
+
+  localStorage.setItem("weights", JSON.stringify(weights));
+
+
+  input.value = "";
+
+  showWeights();
+}
+
+function showWeights() {
+  weightList.innerHTML = "";
+
+  weights.forEach(entry => {
+    const li = document.createElement("li");
+
+    li.innerText =
+      "Day " + entry.day + " → " + entry.weight + " kg";
+
+    weightList.appendChild(li);
+  });
+}
+
+// 🎁 REWARD SYSTEM
+function updateReward() {
+  let nextRewardDay = Math.ceil(day / 5) * 5;
+
+  if (nextRewardDay > 75) nextRewardDay = 75;
+
+  let reward = rewards[nextRewardDay];
+
+  let daysLeft = nextRewardDay - day;
+
+  if (daysLeft === 0) {
+    rewardText.innerText =
+      "🎉 Reward Unlocked: " + reward;
+  } else {
+    rewardText.innerText =
+      "Next Reward: " + reward +
+      " • Unlocks in " + daysLeft + " days";
+  }
 }
