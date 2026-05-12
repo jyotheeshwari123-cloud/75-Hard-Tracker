@@ -210,3 +210,8 @@ button:hover {
 #weightChart {
   margin-top: 10px;
 }
+
+#weightChart {
+  width: 100%;
+  height: 300px !important;
+}
