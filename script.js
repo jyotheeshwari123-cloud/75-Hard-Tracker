@@ -1,5 +1,7 @@
 let streak = localStorage.getItem("streak") || 0;
-const streakText = document.getElementById("streak");
+
+const streakText =
+  document.getElementById("streak");
 
 streakText.innerText =
   "🔥 Streak: " + streak + " days";
@@ -8,6 +10,9 @@ let day = localStorage.getItem("day") || 1;
 
 const dayText =
   document.getElementById("day");
+
+const currentDate =
+  document.getElementById("currentDate");
 
 const progressBar =
   document.getElementById("progressBar");
@@ -42,7 +47,13 @@ const rewards = {
 const rewardText =
   document.getElementById("rewardText");
 
-dayText.innerText = "Day " + day;
+// ✅ Initial UI
+dayText.innerText =
+  "Day " + day;
+
+updateProgress();
+updateReward();
+updateDate();
 
 // ✅ Load saved checkbox state
 const savedChecks =
@@ -54,7 +65,9 @@ checkboxes.forEach((cb, index) => {
 
 // ✅ Save checkbox state
 checkboxes.forEach((cb) => {
+
   cb.addEventListener("change", () => {
+
     let updatedChecks = [];
 
     checkboxes.forEach(c =>
@@ -68,22 +81,19 @@ checkboxes.forEach((cb) => {
   });
 });
 
-// ✅ Initial UI setup
-updateProgress();
-updateReward();
-
 // ✅ COMPLETE DAY
 nextBtn.addEventListener("click", () => {
 
   let allChecked = true;
 
   checkboxes.forEach(cb => {
+
     if (!cb.checked) {
       allChecked = false;
     }
   });
 
-  // ❌ If tasks missed
+  // ❌ Missed tasks
   if (!allChecked) {
 
     let confirmReset = confirm(
@@ -96,7 +106,11 @@ nextBtn.addEventListener("click", () => {
       streak = 0;
 
       localStorage.setItem("day", day);
-      localStorage.setItem("streak", streak);
+
+      localStorage.setItem(
+        "streak",
+        streak
+      );
 
       localStorage.setItem(
         "checks",
@@ -104,13 +118,14 @@ nextBtn.addEventListener("click", () => {
       );
 
       resetCheckboxes();
+
       updateUI();
     }
 
     return;
   }
 
-  // ✅ Challenge completed
+  // ✅ Challenge complete
   if (day >= 75) {
 
     alert("🔥 You completed 75 Days!");
@@ -123,8 +138,13 @@ nextBtn.addEventListener("click", () => {
   streak++;
 
   localStorage.setItem("day", day);
-  localStorage.setItem("streak", streak);
 
+  localStorage.setItem(
+    "streak",
+    streak
+  );
+
+  // reset tasks
   localStorage.setItem(
     "checks",
     JSON.stringify([])
@@ -145,7 +165,10 @@ function updateUI() {
     "🔥 Streak: " + streak + " days";
 
   updateProgress();
+
   updateReward();
+
+  updateDate();
 }
 
 // ✅ Reset checkboxes
@@ -198,19 +221,38 @@ function updateReward() {
   }
 }
 
+// 📅 Current Date
+
+function updateDate() {
+
+  const today =
+    new Date().toLocaleDateString(
+      "en-US",
+      {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric"
+      }
+    );
+
+  currentDate.innerText = today;
+}
+
 // ⚖️ WEIGHT TRANSFORMATION GRAPH
 
 let weights =
   JSON.parse(localStorage.getItem("weights")) || [
     {
       weight: 54,
-      date: new Date().toLocaleDateString(
-        "en-US",
-        {
-          month: "short",
-          day: "numeric"
-        }
-      )
+      date:
+        new Date().toLocaleDateString(
+          "en-US",
+          {
+            month: "short",
+            day: "numeric"
+          }
+        )
     }
   ];
 
@@ -220,6 +262,7 @@ const ctx =
     .getContext("2d");
 
 // ✅ Save Weight
+
 function saveWeight() {
 
   const input =
@@ -252,6 +295,7 @@ function saveWeight() {
 }
 
 // ✅ Render Graph
+
 function renderChart() {
 
   const labels =
@@ -341,5 +385,5 @@ function renderChart() {
     });
 }
 
-// ✅ Initial render
+// ✅ Initial graph render
 renderChart();
