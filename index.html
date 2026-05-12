@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>75 Hard</title>
 
-  <!-- Link CSS -->
   <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="apple-touch-icon" href="icon.png">
@@ -17,7 +16,7 @@
   <h2 id="day">Day 1</h2>
   <h3 id="streak">🔥 Streak: 0 days</h3>
 
-  <div class="tasks">
+    <div class="tasks">
     <label><input type="checkbox"> Wake up by 5:30 AM</label>
     <label><input type="checkbox"> Breathing exercises</label>
     <label><input type="checkbox"> Full body workout (~45 min)</label>
@@ -25,10 +24,47 @@
     <label><input type="checkbox"> Read Bhagavad Gita</label>
     <label><input type="checkbox"> Eat (11 AM – 7 PM)</label>
     <label><input type="checkbox"> Jog (~45 min)</label>
-    <label><input type="checkbox"> Drink atleast 3L water</label>
     <label><input type="checkbox"> Sleep by 10:30 PM</label>
   </div>
+  
+    <!-- 💧 WATER TRACKER -->
+  <div class="water-section">
+    <h3>💧 Water Tracker</h3>
 
+    <p id="waterText">0 ml / 3000 ml</p>
+
+    <div class="water-progress">
+      <div id="waterBar"></div>
+    </div>
+
+    <div class="water-buttons">
+      <button onclick="addWater(250)">+250 ml</button>
+      <button onclick="addWater(500)">+500 ml</button>
+      <button onclick="resetWater()">Reset</button>
+    </div>
+  </div>
+
+  <!-- ⚖️ WEIGHT TRACKER -->
+  <div class="weight-section">
+    <h3>⚖️ Weight Tracker</h3>
+
+    <p>Track every 5–7 days</p>
+
+    <input type="number" id="weightInput" placeholder="Enter weight in kg">
+
+    <button onclick="saveWeight()">Save Weight</button>
+
+    <ul id="weightList"></ul>
+  </div>
+
+  <!-- 🎁 REWARD SECTION -->
+  <div class="reward-section">
+    <h3>🎁 Motivation Reward</h3>
+
+    <p id="rewardText"></p>
+  </div>
+
+  
   <button id="nextDay">Complete Day 💪</button>
 
   <div class="progress">
