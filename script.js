@@ -203,8 +203,14 @@ function updateReward() {
 let weights =
   JSON.parse(localStorage.getItem("weights")) || [
     {
-      day: 1,
-      weight: 54
+      weight: 54,
+      date: new Date().toLocaleDateString(
+        "en-US",
+        {
+          month: "short",
+          day: "numeric"
+        }
+      )
     }
   ];
 
@@ -221,9 +227,18 @@ function saveWeight() {
 
   if (!input.value) return;
 
+  const today =
+    new Date().toLocaleDateString(
+      "en-US",
+      {
+        month: "short",
+        day: "numeric"
+      }
+    );
+
   weights.push({
-    day: Number(day),
-    weight: Number(input.value)
+    weight: Number(input.value),
+    date: today
   });
 
   localStorage.setItem(
@@ -240,16 +255,12 @@ function saveWeight() {
 function renderChart() {
 
   const labels =
-    weights.map(w =>
-      "Day " + w.day
-    );
+    weights.map(w => w.date);
 
   const data =
-    weights.map(w =>
-      w.weight
-    );
+    weights.map(w => w.weight);
 
-  // destroy old graph
+  // remove old graph
   if (window.weightGraph) {
     window.weightGraph.destroy();
   }
@@ -273,11 +284,11 @@ function renderChart() {
             borderColor: "#a47551",
 
             backgroundColor:
-              "rgba(164,117,81,0.15)",
+              "rgba(164,117,81,0.12)",
 
             fill: true,
 
-            tension: 0.4,
+            tension: 0.25,
 
             pointRadius: 5,
 
@@ -294,6 +305,7 @@ function renderChart() {
         maintainAspectRatio: false,
 
         plugins: {
+
           legend: {
             display: false
           }
@@ -305,10 +317,23 @@ function renderChart() {
 
             min: 45,
 
-            max: 55,
+            max: 60,
 
             ticks: {
               stepSize: 1
+            },
+
+            grid: {
+              color:
+                "rgba(0,0,0,0.05)"
+            }
+          },
+
+          x: {
+
+            grid: {
+              color:
+                "rgba(0,0,0,0.03)"
             }
           }
         }
@@ -316,5 +341,5 @@ function renderChart() {
     });
 }
 
-// ✅ Load graph initially
+// ✅ Initial render
 renderChart();
