@@ -29,18 +29,31 @@
     </div>
 
 
-  <!-- ⚖️ WEIGHT TRACKER -->
-  <div class="weight-section">
-    <h3>⚖️ Weight Tracker</h3>
+<!-- ⚖️ WEIGHT TRANSFORMATION -->
+<div class="weight-section">
 
-    <p>Track every 5–7 days</p>
+  <h3>⚖️ Weight Transformation</h3>
 
-    <input type="number" id="weightInput" placeholder="Enter weight in kg">
+  <p class="weight-goal">
+    Current: <strong>54 kg</strong>
+    → Goal: <strong>45 kg</strong>
+  </p>
 
-    <button onclick="saveWeight()">Save Weight</button>
+  <div class="weight-input-area">
+    <input
+      type="number"
+      id="weightInput"
+      placeholder="Enter current weight"
+    />
 
-    <ul id="weightList"></ul>
+    <button onclick="saveWeight()">
+      Update Weight
+    </button>
   </div>
+
+  <canvas id="weightChart"></canvas>
+
+</div>
 
   <!-- 🎁 REWARD SECTION -->
   <div class="reward-section">
@@ -57,6 +70,7 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
 
 </body>
