@@ -1,16 +1,24 @@
 let streak = localStorage.getItem("streak") || 0;
 const streakText = document.getElementById("streak");
 
-streakText.innerText = "🔥 Streak: " + streak + " days";
+streakText.innerText =
+  "🔥 Streak: " + streak + " days";
 
 let day = localStorage.getItem("day") || 1;
 
-const dayText = document.getElementById("day");
-const progressBar = document.getElementById("progressBar");
-const nextBtn = document.getElementById("nextDay");
-const checkboxes = document.querySelectorAll(
-  "input[type='checkbox']"
-);
+const dayText =
+  document.getElementById("day");
+
+const progressBar =
+  document.getElementById("progressBar");
+
+const nextBtn =
+  document.getElementById("nextDay");
+
+const checkboxes =
+  document.querySelectorAll(
+    "input[type='checkbox']"
+  );
 
 // 🎁 Rewards
 const rewards = {
@@ -34,8 +42,6 @@ const rewards = {
 const rewardText =
   document.getElementById("rewardText");
 
-updateReward();
-
 dayText.innerText = "Day " + day;
 
 // ✅ Load saved checkbox state
@@ -47,7 +53,7 @@ checkboxes.forEach((cb, index) => {
 });
 
 // ✅ Save checkbox state
-checkboxes.forEach((cb, index) => {
+checkboxes.forEach((cb) => {
   cb.addEventListener("change", () => {
     let updatedChecks = [];
 
@@ -62,27 +68,40 @@ checkboxes.forEach((cb, index) => {
   });
 });
 
+// ✅ Initial UI setup
 updateProgress();
+updateReward();
 
 // ✅ COMPLETE DAY
 nextBtn.addEventListener("click", () => {
+
   let allChecked = true;
 
   checkboxes.forEach(cb => {
-    if (!cb.checked) allChecked = false;
+    if (!cb.checked) {
+      allChecked = false;
+    }
   });
 
+  // ❌ If tasks missed
   if (!allChecked) {
+
     let confirmReset = confirm(
       "You missed tasks. Restart from Day 1?"
     );
 
     if (confirmReset) {
+
       day = 1;
       streak = 0;
 
       localStorage.setItem("day", day);
       localStorage.setItem("streak", streak);
+
+      localStorage.setItem(
+        "checks",
+        JSON.stringify([])
+      );
 
       resetCheckboxes();
       updateUI();
@@ -91,18 +110,21 @@ nextBtn.addEventListener("click", () => {
     return;
   }
 
+  // ✅ Challenge completed
   if (day >= 75) {
+
     alert("🔥 You completed 75 Days!");
+
     return;
   }
 
+  // ✅ Move to next day
   day++;
   streak++;
 
   localStorage.setItem("day", day);
   localStorage.setItem("streak", streak);
 
-  // reset checkboxes for new day
   localStorage.setItem(
     "checks",
     JSON.stringify([])
@@ -115,7 +137,9 @@ nextBtn.addEventListener("click", () => {
 
 // ✅ Update UI
 function updateUI() {
-  dayText.innerText = "Day " + day;
+
+  dayText.innerText =
+    "Day " + day;
 
   streakText.innerText =
     "🔥 Streak: " + streak + " days";
@@ -126,32 +150,45 @@ function updateUI() {
 
 // ✅ Reset checkboxes
 function resetCheckboxes() {
-  checkboxes.forEach(cb => (cb.checked = false));
+
+  checkboxes.forEach(cb => {
+    cb.checked = false;
+  });
 }
 
 // ✅ Progress Bar
 function updateProgress() {
-  let percent = (day / 75) * 100;
 
-  progressBar.style.width = percent + "%";
+  let percent =
+    (day / 75) * 100;
+
+  progressBar.style.width =
+    percent + "%";
 }
 
 // 🎁 Reward System
 function updateReward() {
+
   let nextRewardDay =
     Math.ceil(day / 5) * 5;
 
-  if (nextRewardDay > 75)
+  if (nextRewardDay > 75) {
     nextRewardDay = 75;
+  }
 
-  let reward = rewards[nextRewardDay];
+  let reward =
+    rewards[nextRewardDay];
 
-  let daysLeft = nextRewardDay - day;
+  let daysLeft =
+    nextRewardDay - day;
 
   if (daysLeft === 0) {
+
     rewardText.innerText =
       "🎉 Reward Unlocked: " + reward;
+
   } else {
+
     rewardText.innerText =
       "Next Reward: " +
       reward +
@@ -172,9 +209,13 @@ let weights =
   ];
 
 const ctx =
-  document.getElementById("weightChart");
+  document
+    .getElementById("weightChart")
+    .getContext("2d");
 
+// ✅ Save Weight
 function saveWeight() {
+
   const input =
     document.getElementById("weightInput");
 
@@ -195,27 +236,37 @@ function saveWeight() {
   renderChart();
 }
 
+// ✅ Render Graph
 function renderChart() {
+
   const labels =
-    weights.map(w => "Day " + w.day);
+    weights.map(w =>
+      "Day " + w.day
+    );
 
   const data =
-    weights.map(w => w.weight);
+    weights.map(w =>
+      w.weight
+    );
 
+  // destroy old graph
   if (window.weightGraph) {
     window.weightGraph.destroy();
   }
 
+  // create graph
   window.weightGraph =
     new Chart(ctx, {
+
       type: "line",
 
       data: {
+
         labels: labels,
 
         datasets: [
           {
-            label: "Weight (kg)",
+            label: "Weight",
 
             data: data,
 
@@ -224,9 +275,9 @@ function renderChart() {
             backgroundColor:
               "rgba(164,117,81,0.15)",
 
-            tension: 0.4,
-
             fill: true,
+
+            tension: 0.4,
 
             pointRadius: 5,
 
@@ -237,7 +288,10 @@ function renderChart() {
       },
 
       options: {
+
         responsive: true,
+
+        maintainAspectRatio: false,
 
         plugins: {
           legend: {
@@ -246,13 +300,21 @@ function renderChart() {
         },
 
         scales: {
+
           y: {
-            suggestedMin: 45,
-            suggestedMax: 55
+
+            min: 45,
+
+            max: 55,
+
+            ticks: {
+              stepSize: 1
+            }
           }
         }
       }
     });
 }
 
+// ✅ Load graph initially
 renderChart();
